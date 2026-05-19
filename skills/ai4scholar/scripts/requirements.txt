@@ -1,0 +1,9 @@
+# AI4Scholar Python 示例脚本依赖
+#
+# 安装: pip install -r requirements.txt
+
+# 必需依赖（所有示例共用）
+pyyaml>=6.0            # 读取 config.yaml 配置文件
+
+# 可选依赖（按需要安装）
+pdfminer.six>=20201018 # PDF 文本提取（example_semantic_scholar.py 的 read_paper 功能、example_doi.py 的文本提取）
