@@ -83,6 +83,8 @@ client.remove_notebook("notebook-id")
 
 ### Document Operations
 
+When importing Markdown files, convert inline math in the form of `\(...\)` to `$...$` first, then proceed with the import.
+
 ```python
 # Export document as Markdown
 result = client.export_md_content("doc-id")
