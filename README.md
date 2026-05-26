@@ -12,7 +12,7 @@
 | [siyuan-note](./skills/siyuan-note/) | SiYuan Note (思源笔记) API 客户端 — 完整的笔记本、文档和块管理 |
 | [tech-stack-quickstart](./skills/tech-stack-quickstart/) | 为指定技术栈生成新手友好的快速入门和用法参考文档 |
 
-## Installation
+## 安装
 
 首先，克隆该仓库到本地：
 
@@ -21,35 +21,40 @@ git clone https://gitee.com/bowenEI/myskills.git
 cd myskills
 ```
 
-然后，根据你使用的智能体应用，执行相应的安装命令（采用符号链接方式）：
-
-OpenClaw Installation:
-
-```bash
-ln -s $(pwd)/skills/* ~/.openclaw/skills/
-```
+然后，根据你使用的智能体应用，执行相应的安装命令（采用符号链接方式）。
 
 Claude Code Installation:
 
 ```bash
-ln -s $(pwd)/skills/* ~/.claude/skills/
+rm -rf ~/.claude/skills
+ln -s $(pwd)/skills ~/.claude/skills
 ```
 
-Hermes Agent Installation:
-
-```bash
-ln -s $(pwd)/skills/* ~/.hermes/skills/
+```powershell
+rm -rf $env:USERPROFILE\.claude\skills
+New-Item -ItemType SymbolicLink -Path $env:USERPROFILE\.claude\skills -Target (Join-Path (Get-Location) "skills")
 ```
 
-Other Agents (e.g., Codex, etc.) Installation:
+Codex Installation:
 
 ```bash
-ln -s $(pwd)/skills/* ~/.agent/skills/
+rm -rf ~/.codex/skills
+ln -s $(pwd)/skills ~/.codex/skills
 ```
 
-以上安装命令都是用户级别全局安装，当然也可以选择局部安装到某个项目中：
+```powershell
+rm -rf $env:USERPROFILE\.codex\skills
+New-Item -ItemType SymbolicLink -Path $env:USERPROFILE\.codex\skills -Target (Join-Path (Get-Location) "skills")
+```
+
+Or:
 
 ```bash
-cd /path/to/your/project
-ln -s $(pwd)/skills/* ./skills/
+rm -rf ~/.agent/skills
+ln -s $(pwd)/skills ~/.agent/skills
+```
+
+```powershell
+rm -rf $env:USERPROFILE\.agent\skills
+New-Item -ItemType SymbolicLink -Path $env:USERPROFILE\.agent\skills -Target (Join-Path (Get-Location) "skills")
 ```
