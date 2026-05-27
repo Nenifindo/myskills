@@ -7,3 +7,5 @@ config.yaml
 
 # Codex
 .system
+
+skills-lock.json
