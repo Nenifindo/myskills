@@ -1,0 +1,4 @@
+interface:
+  display_name: "SEU Academic Beamer"
+  short_description: "Create SEU-branded academic Beamer slide decks"
+  default_prompt: "Use $seu-academic-beamer to create a Southeast University academic report slide deck."
