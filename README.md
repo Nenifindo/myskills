@@ -10,7 +10,7 @@
 |------|------|------------------|
 | [ai4scholar](./.agents/skills/ai4scholar/) | 综合学术文献检索、分析、管理。覆盖 Semantic Scholar、PubMed、Google Scholar、arXiv、bioRxiv、medRxiv，支持论文搜索、引文追踪、作者画像、PDF 全文、DOI 解析、自动引用标注 (Auto-Cite)、科研绘图 (Sci-Draw) | 部分功能需要配置 API Key |
 | [beamer](./.agents/skills/beamer/) | Beamer LaTeX 幻灯片工作流，支持学术报告的创建、编译、审阅、视觉检查、教学性优化、TikZ 图示和论文转 slides | 否 |
-| [bilibili-cache-to-mp4](./.agents/skills/bilibili-cache-to-mp4/) | 将 B 站 Android/PC 客户端缓存的 .m4s 文件转换为可播放的 MP4 视频 | 否 |
+| [parse-bilibili](./.agents/skills/parse-bilibili/) | 解析 B 站 Android/PC 客户端缓存的 .m4s 文件，导出 MP4 视频或纯音频 | 否 |
 | [book-deconstruction](./.agents/skills/book-deconstruction/) | 书籍章节级要点提炼与深度解读，生成结构化笔记和思维导图 | 否 |
 | [codebase-onboarding](./.agents/skills/codebase-onboarding/) | 分析代码库并生成面向不同受众的入门文档，包括架构概览、关键文件地图、本地启动指南、常见任务手册、调试指南和贡献规范 | 否 |
 | [daily-ai-news](./.agents/skills/daily-ai-news/) | 聚合和总结最新 AI 新闻，按重大公告、研究论文、产业商业、工具应用、政策伦理等类别生成每日简报，并附原文链接 | 否 |
