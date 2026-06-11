@@ -1,0 +1,4 @@
+interface:
+  display_name: "Book Deconstruction"
+  short_description: "Analyze books into notes and mind maps"
+  default_prompt: "Use $book-deconstruction to analyze a book into structured notes and a mind map."

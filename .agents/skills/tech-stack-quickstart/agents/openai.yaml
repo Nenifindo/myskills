@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tech Stack Quickstart"
+  short_description: "Create beginner-friendly tech guides"
+  default_prompt: "Use $tech-stack-quickstart to create a beginner-friendly quickstart for a technology stack."

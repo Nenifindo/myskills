@@ -1,0 +1,4 @@
+interface:
+  display_name: "Beamer"
+  short_description: "Create, compile, and review Beamer slides"
+  default_prompt: "Use $beamer to create, compile, review, or polish a Beamer slide deck."

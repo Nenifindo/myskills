@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codebase Onboarding"
+  short_description: "Map a repository for faster onboarding"
+  default_prompt: "Use $codebase-onboarding to inspect a repository and produce an onboarding map."

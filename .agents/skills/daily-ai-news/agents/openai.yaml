@@ -1,0 +1,4 @@
+interface:
+  display_name: "Daily AI News"
+  short_description: "Gather and summarize current AI news"
+  default_prompt: "Use $daily-ai-news to gather and summarize the latest AI news with source links."

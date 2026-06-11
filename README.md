@@ -1,6 +1,6 @@
 # 自用 Skills 仓库
 
-该仓库包含了我个人使用的一组 Codex / Claude Code / OpenClaw / Hermes Agent 技能，覆盖学术检索、论文研读、每日 AI 资讯、读书拆解、代码库入门文档、技能发现与安装、Beamer / Slidev 演示文稿、东南大学学术汇报模板、笔记管理、技术栈入门和 B 站缓存转换等场景。
+该仓库包含了我个人使用的一组 Codex / Claude Code / WorkBuddy 技能，覆盖学术检索、论文研读、每日 AI 资讯、读书拆解、代码库入门文档、技能发现与安装、Beamer / Slidev 演示文稿、东南大学学术汇报模板、笔记管理、技术栈入门和 B 站缓存转换等场景。
 
 当前技能统一存放在 [.agents/skills](./.agents/skills/) 目录中。
 
@@ -36,11 +36,15 @@ cd myskills
 
 ### Codex
 
+Linux/WSL:
+
 ```bash
 rm -rf ~/.codex/skills
 mkdir -p ~/.codex
 ln -s $(pwd)/.agents/skills ~/.codex/skills
 ```
+
+Windows:
 
 ```powershell
 Remove-Item -Recurse -Force -ErrorAction SilentlyContinue $env:USERPROFILE\.codex\skills
@@ -49,24 +53,41 @@ New-Item -ItemType SymbolicLink -Path $env:USERPROFILE\.codex\skills -Target (Jo
 
 ### Claude Code
 
+Linux/WSL:
+
 ```bash
 rm -rf ~/.claude/skills
 mkdir -p ~/.claude
 ln -s $(pwd)/.agents/skills ~/.claude/skills
 ```
 
+Windows:
+
 ```powershell
 Remove-Item -Recurse -Force -ErrorAction SilentlyContinue $env:USERPROFILE\.claude\skills
 New-Item -ItemType SymbolicLink -Path $env:USERPROFILE\.claude\skills -Target (Join-Path (Get-Location) ".agents/skills")
 ```
 
+### WorkBuddy
+
+Windows:
+
+```powershell
+Remove-Item -Recurse -Force -ErrorAction SilentlyContinue $env:USERPROFILE\.workbuddy\skills
+New-Item -ItemType SymbolicLink -Path $env:USERPROFILE\.workbuddy\skills -Target (Join-Path (Get-Location) ".agents/skills")
+```
+
 ### 通用 Agent 目录
+
+Linux/WSL:
 
 ```bash
 rm -rf ~/.agent/skills
 mkdir -p ~/.agent
 ln -s $(pwd)/.agents/skills ~/.agent/skills
 ```
+
+Windows:
 
 ```powershell
 Remove-Item -Recurse -Force -ErrorAction SilentlyContinue $env:USERPROFILE\.agent\skills

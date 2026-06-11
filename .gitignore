@@ -9,3 +9,6 @@ config.yaml
 .system
 
 skills-lock.json
+
+# WorkBuddy
+_bm_skillid_migration.json

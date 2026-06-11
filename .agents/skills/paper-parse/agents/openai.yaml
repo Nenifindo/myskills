@@ -1,0 +1,4 @@
+interface:
+  display_name: "Paper Parse"
+  short_description: "Deep-read academic papers into reports"
+  default_prompt: "Use $paper-parse to deeply analyze an academic paper and produce two reading reports."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI4Scholar"
+  short_description: "Search, cite, and analyze academic papers"
+  default_prompt: "Use $ai4scholar to search papers, trace citations, and build an academic literature brief."
