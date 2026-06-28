@@ -17,7 +17,7 @@ tags: [academic, literature, search, paper, citation, research, scholar, pubmed,
 
 1. 前往 [ai4scholar.net](https://ai4scholar.net) 注册账号
 2. 在个人中心获取 API Key
-3. 编辑本技能目录下的 `config.json` 文件，填入你的 API Key
+3. 编辑本技能目录下的 `config.yaml` 文件，填入你的 API Key
 
 **config.yaml 文件路径**：本技能所在目录下的 `config.yaml`
 **格式**：
