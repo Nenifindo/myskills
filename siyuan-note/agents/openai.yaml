@@ -1,4 +1,4 @@
 interface:
   display_name: "SiYuan Note"
-  short_description: "Manage SiYuan notebooks and blocks"
-  default_prompt: "Use $siyuan-note to manage SiYuan notebooks, documents, and blocks."
+  short_description: "Manage SiYuan notes via CLI or API"
+  default_prompt: "Use $siyuan-note to manage local SiYuan notebooks, documents, and blocks via the preferred CLI or API fallback."

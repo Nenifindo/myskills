@@ -1,21 +1,48 @@
 ---
 name: siyuan-note
-description: SiYuan Note (思源笔记) API client - Complete notebook, document and block management
+description: Access and manage local SiYuan Note (思源笔记) workspaces with the built-in siyuan CLI as the preferred path, while preserving the local HTTP API and Python client fallback. Use for notebooks, documents, blocks, search, SQL, import/export, assets, databases, daily notes, templates, history, repo snapshots, and scripted/batch note management.
 ---
 
 # SiYuan Note (思源笔记)
 
-A clean API client for SiYuan Note, providing access to your notes via the local HTTP API.
+Prefer the built-in `siyuan` CLI for direct local workspace access. It can read and write workspace data without starting the SiYuan kernel service, which makes it the default choice for scripting, batch operations, and agent workflows. Keep using the bundled HTTP API client when the CLI is unavailable, the user explicitly asks for API access, or an existing Python helper is the best fit.
 
-## Prerequisites
+## Access Strategy
 
-- SiYuan running with API enabled (Settings → About → API)
-- API token from SiYuan settings
+1. Probe the CLI first: `Get-Command siyuan`, `siyuan --help`, then `siyuan --format json workspace info`.
+2. Use `--format json` for parseable output whenever the command supports it.
+3. Pass `--workspace <path>` when the user gives a workspace, when multiple workspaces are registered, or when `SIYUAN_WORKSPACE_PATH` is unset/ambiguous.
+4. Use `--dry-run` before destructive or bulk write operations, then rerun without it only after the target and parameters are confirmed.
+5. Use temporary files plus `--file` for long Markdown or structured content instead of stuffing large payloads into shell arguments.
+6. Fall back to the API/Python client section when `siyuan` is missing from `PATH`, CLI output is insufficient, or the operation is already implemented by the bundled tools.
 
-## Configuration
+## CLI Access (Preferred)
 
-1. Get your API token from SiYuan: **Settings → About → API → Copy Token**
-2. Create/edit `config.yaml`:
+For any CLI-based note access or management task, read `CLI.md` in this skill directory before running `siyuan` commands. It contains installation notes, global flags, safety rules, command references, and examples for notebooks, documents, blocks, search, SQL, import/export, history, repo snapshots, metadata, assets, databases, daily notes, templates, and workspace files.
+
+Minimal probe:
+
+```powershell
+Get-Command siyuan
+siyuan --help
+siyuan --format json workspace info
+```
+
+Default command shape:
+
+```bash
+siyuan [--workspace /path/to/workspace] [--format json] [--dry-run] <command> [args]
+```
+
+Before destructive or bulk writes, use `--dry-run` and consider `siyuan repo create --memo "before batch edit"` or `siyuan export data --output ./full-backup.zip`.
+
+## API/Python Fallback
+
+Use this path when the CLI cannot be used, when the user explicitly asks for HTTP API access, or when a local Python helper already covers the requested task. The API path requires SiYuan running with API enabled and a token from **Settings -> About -> API**.
+
+### Configuration
+
+Create or edit `config.yaml`:
 
 ```yaml
 siyuan:
@@ -25,9 +52,7 @@ siyuan:
   retry: 3
 ```
 
-**Note**: SiYuan may use different ports on restart (default 6806, but could be 34669, etc.). Check the current port in SiYuan settings.
-
-## Python Client API
+SiYuan may use different ports on restart, commonly `6806` but sometimes another port. Check the current port in SiYuan settings.
 
 ### Initialize Client
 
@@ -51,8 +76,12 @@ client = SiYuanClient(
 version = client.system_version()
 print(f"SiYuan v{version}")
 
-# Get current time
+# Get current time in milliseconds
 timestamp = client.current_time()
+
+# Get boot progress
+progress = client.boot_progress()
+print(f"Boot: {progress['progress']}% - {progress['details']}")
 ```
 
 ### Notebook Operations
@@ -88,8 +117,8 @@ IMPORTANT: When importing Markdown format text, convert inline math in the form 
 ```python
 # Export document as Markdown
 result = client.export_md_content("doc-id")
-print(result['hPath'])      # Human-readable path
-print(result['content'])    # Markdown content
+print(result["hPath"])      # Human-readable path
+print(result["content"])    # Markdown content
 
 # Create new document
 new_doc = client.create_doc_with_md(
@@ -103,8 +132,8 @@ client.rename_doc("notebook-id", "/old-path", "新标题")
 client.rename_doc_by_id("doc-id", "新标题")
 
 # Get document paths
-hpath = client.get_hpath_by_id("doc-id")  # Human-readable path
-path_info = client.get_path_by_id("doc-id")  # Storage path
+hpath = client.get_hpath_by_id("doc-id")
+path_info = client.get_path_by_id("doc-id")
 ids = client.get_ids_by_hpath("notebook-id", "/人类可读路径")
 
 # Move documents by ID
@@ -130,7 +159,7 @@ client.remove_doc_by_id("doc-id")
 ### Block Operations
 
 ```python
-# Insert blocks at specific position
+# Insert blocks at a specific position
 blocks = client.insert_block(
     data_type="markdown",
     data="## New Section\n\nSome content",
@@ -167,10 +196,10 @@ client.delete_block("block-id")
 client.move_block(
     block_id="block-id",
     previous_id="target-block-id",  # Optional: insert after this block
-    parent_id="parent-block-id"     # Optional: set parent (at least one required)
+    parent_id="parent-block-id"     # Optional: set parent; at least one target is required
 )
 
-# Fold/unfold (collapse/expand) blocks
+# Fold/unfold blocks
 client.fold_block("block-id")
 client.unfold_block("block-id")
 
@@ -213,20 +242,22 @@ result = client.upload_asset(
     file_paths=["/path/to/image.png", "/path/to/doc.pdf"],
     assets_dir_path="/assets/"
 )
-print(result['succMap'])  # Successfully uploaded files
-print(result['errFiles'])  # Failed uploads
+print(result["succMap"])
+print(result["errFiles"])
 ```
 
 ### SQL Operations
 
 ```python
-# Execute SQL query
+# Execute SQL query (read-only recommended)
 results = client.query_sql("""
-    SELECT * FROM blocks 
-    WHERE type = 'd' 
-    ORDER BY updated DESC 
+    SELECT * FROM blocks
+    WHERE content LIKE '%关键词%'
+    ORDER BY updated DESC
     LIMIT 10
 """)
+for block in results:
+    print(f"{block['content'][:100]}...")
 
 # Flush SQLite transaction to disk
 client.flush_transaction()
@@ -240,7 +271,7 @@ result = client.render_template(
     doc_id="doc-id",
     template_path="/data/templates/daily.md"
 )
-print(result['content'])
+print(result["content"])
 
 # Render Sprig template string
 output = client.render_sprig('/daily note/{{now | date "2006/01"}}/{{now | date "2006-01-02"}}')
@@ -276,8 +307,8 @@ client.remove_file("/data/unwanted-file.sy")
 ```python
 # Export document as Markdown
 result = client.export_md_content("doc-id")
-print(result['hPath'])      # Human-readable path
-print(result['content'])    # Markdown content
+print(result["hPath"])
+print(result["content"])
 
 # Export multiple files/folders as zip
 zip_path = client.export_resources(
@@ -291,13 +322,8 @@ print(f"Exported to: {zip_path}")
 
 ```python
 # Run Pandoc conversion
-# 1. Put input file
 client.put_file("/temp/convert/pandoc/mydir/input.epub", file_content=epub_bytes)
-
-# 2. Run conversion
 work_dir = client.pandoc("mydir", ["--to", "markdown_strict", "input.epub", "-o", "output.md"])
-
-# 3. Get output file
 output = client.get_file("/temp/convert/pandoc/mydir/output.md")
 ```
 
@@ -320,197 +346,69 @@ response = client.forward_proxy(
     method="GET",
     headers=[{"Authorization": "Bearer token"}]
 )
-print(response['body'])
-print(response['status'])
+print(response["body"])
+print(response["status"])
 ```
 
-### System
+### Bundled API Tools
 
-```python
-# Get boot progress
-progress = client.boot_progress()
-print(f"Boot: {progress['progress']}% - {progress['details']}")
-
-# Get system version
-version = client.system_version()
-print(f"SiYuan v{version}")
-
-# Get current time (milliseconds)
-timestamp = client.current_time()
-```
-
-### SQL Query
-
-```python
-# Execute SQL query (read-only recommended)
-results = client.query_sql("""
-    SELECT * FROM blocks 
-    WHERE content LIKE '%关键词%'
-    ORDER BY updated DESC 
-    LIMIT 10
-""")
-for block in results:
-    print(f"{block['content'][:100]}...")
-```
-
-## CLI Tools
-
-All tools are located in `tools/` directory and depend on `siyuan_client.py`.
-
-### List
+All tools are located in `tools/` and depend on `siyuan_client.py`.
 
 ```bash
-# List all notebooks
+# List
 python3 tools/list.py --notebooks
-
-# List documents in a notebook
 python3 tools/list.py --docs "notebook-id"
-
-# Output as JSON
 python3 tools/list.py -n -j
-```
 
-### Read
-
-```bash
-# Read document content
+# Read
 python3 tools/read.py 20240602141622-l7ou7t7
-
-# Save to file
 python3 tools/read.py 20240602141622-l7ou7t7 -o ~/doc.md
-
-# Show document metadata
 python3 tools/read.py 20240602141622-l7ou7t7 --info
-```
 
-### Search
-
-```bash
-# Search by keyword
+# Search
 python3 tools/search.py "keyword"
-
-# Limit results
 python3 tools/search.py "keyword" -l 50
-
-# Raw SQL query
 python3 tools/search.py "SELECT * FROM blocks WHERE type='d' LIMIT 10" --sql
-```
 
-### Export
-
-```bash
-# Export all notebooks
+# Export
 python3 tools/export.py -o ~/backup/
-
-# Export specific notebook
 python3 tools/export.py -n "工作" -o ~/backup/
-
-# Export single document
 python3 tools/export.py -d 20240602141622-l7ou7t7 -o ~/doc.md
-```
 
-### Create
-
-```bash
-# Create notebook
+# Create
 python3 tools/create.py --notebook "New Project"
-
-# Create document
 python3 tools/create.py --doc notebook-id /readme "# Hello\n\nWorld"
-
-# Create with nested path
 python3 tools/create.py --doc notebook-id /folder/doc "## Title\nContent"
-```
 
-### Delete
-
-```bash
-# Delete notebook
+# Delete
 python3 tools/delete.py --notebook notebook-id
-
-# Delete document
 python3 tools/delete.py --doc doc-id
-
-# Delete block
 python3 tools/delete.py --block block-id
-
-# Skip confirmation
 python3 tools/delete.py --doc doc-id --yes
-```
 
-### Move
-
-```bash
-# Move single document
+# Move
 python3 tools/move.py --doc doc-id --to-notebook target-nb-id
-
-# Move multiple documents
 python3 tools/move.py --docs id1 id2 id3 --to-notebook target-nb-id
-
-# Move by path
 python3 tools/move.py --from-paths /doc1.sy /doc2.sy --to-nb target-nb --to-path /folder/
-```
 
-### Update
-
-```bash
-# Update a block
+# Update
 python3 tools/update.py --block block-id --markdown "New content"
-
-# Append to document
 python3 tools/update.py --append doc-id --markdown "\n\nFooter"
-
-# Prepend to document
 python3 tools/update.py --prepend doc-id --markdown "# Header\n"
-
-# Insert block
 python3 tools/update.py --insert "New paragraph" --parent doc-id
 ```
 
-## Safety Features
+### API Reference
 
-- ✅ All write operations are logged
-- ✅ Automatic retry with exponential backoff
-- ✅ Connection health checks
-- ✅ Comprehensive error handling
-- ✅ Read-only by default for queries
+- Local API documentation: `API.md` in this directory.
+- Implementation details: inspect `siyuan_client.py`.
+- Command wrappers: inspect `tools/`.
 
 ## Troubleshooting
 
-### Connection Refused
-
-1. Check if SiYuan is running
-2. Verify API is enabled in Settings → About → API
-3. Check the correct port in config.yaml
-
-### Authentication Failed
-
-1. Get fresh token from SiYuan: Settings → About → API
-2. Update config.yaml with new token
-
-### Port Changes
-
-SiYuan may use different ports on restart. Check current port:
-```bash
-ss -tlnp | grep SiYuan
-```
-
-Then update config.yaml accordingly.
-
-## API Reference
-
-- **Local API Documentation**: See [`API.md`](./API.md) in this directory (downloaded from [official repo](https://github.com/siyuan-note/siyuan/blob/master/API.md))
-- **Online API Docs**: https://www.siyuan-note.club/apis
-- **Official Repository**: https://github.com/siyuan-note/siyuan
-
-## Changelog
-
-### v1.0.0 (2026-03-20)
-- Added complete API client with automatic retry
-- Added 8 CLI tools for all common operations
-- Added bilingual documentation (Chinese/English)
-- Added configuration file support
-- Production-ready with comprehensive error handling
-
-### v0.5.0 (2026-03-18)
-- Initial release
+- CLI missing: locate `<SiYuan install>/resources/kernel/SiYuan-Kernel` or the platform-specific `siyuan` executable, add it to `PATH`, or invoke the full path.
+- Wrong workspace: set `SIYUAN_WORKSPACE_PATH` or pass `--workspace`.
+- CLI output hard to parse: add `--format json`.
+- API connection refused: start SiYuan, enable API, and verify the port in `config.yaml`.
+- API authentication failed: copy a fresh token from SiYuan settings.
+- API port changed: check the current SiYuan API port and update `config.yaml`.
