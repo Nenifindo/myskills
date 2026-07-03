@@ -1,6 +1,6 @@
 ---
 name: "codebase-onboarding"
-description: "Codebase Onboarding"
+description: "Analyze a software repository and generate practical onboarding documentation for new developers, contractors, or maintainers, including architecture overviews, setup guides, key file maps, common task runbooks, debugging notes, and contribution guidelines. Use when Codex needs to understand a codebase and produce README/wiki-style onboarding docs, update stale project documentation after refactors, prepare handoff material, or document a project before onboarding or open-sourcing."
 ---
 
 # Codebase Onboarding
