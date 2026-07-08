@@ -1,0 +1,4 @@
+interface:
+  display_name: "CCF Figure"
+  short_description: "Create publication-ready research figure prompts"
+  default_prompt: "Use $ccf-figure to turn my paper abstract and method details into a publication-ready scientific figure prompt."
