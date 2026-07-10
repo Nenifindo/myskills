@@ -1,3 +1,4 @@
 {
-  "name": "Parse Bilibili"
+  "name": "Parse Bilibili",
+  "description_zh": "将 Bilibili 缓存文件转换为媒体文件"
 }
