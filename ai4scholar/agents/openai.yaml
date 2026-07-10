@@ -1,4 +1,4 @@
 interface:
   display_name: "AI4Scholar"
-  short_description: "Search, cite, and analyze academic papers"
-  default_prompt: "Use $ai4scholar to search papers, trace citations, and build an academic literature brief."
+  short_description: "检索、引用并分析学术论文"
+  default_prompt: "使用 $ai4scholar 检索论文、追踪引用关系，并生成学术文献简报。"

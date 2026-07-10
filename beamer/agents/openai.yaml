@@ -1,4 +1,4 @@
 interface:
   display_name: "Beamer"
-  short_description: "Create, compile, and review Beamer slides"
-  default_prompt: "Use $beamer to create, compile, review, or polish a Beamer slide deck."
+  short_description: "创建、编译并审阅 Beamer 幻灯片"
+  default_prompt: "使用 $beamer 创建、编译、审阅或润色 Beamer 幻灯片。"

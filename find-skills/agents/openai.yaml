@@ -1,4 +1,4 @@
 interface:
   display_name: "Find Skills"
-  short_description: "Discover installable Codex skills"
-  default_prompt: "Use $find-skills to discover skills that can extend Codex for a task."
+  short_description: "发现可为任务扩展 Codex 的技能"
+  default_prompt: "使用 $find-skills 发现能够为当前任务扩展 Codex 能力的技能。"

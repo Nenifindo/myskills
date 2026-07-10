@@ -1,4 +1,4 @@
 interface:
-  display_name: "Markdown 中英混排检查"
+  display_name: "Markdown CJK Spacing"
   short_description: "检查中英混排 Markdown 的空格与加粗标点问题"
-  default_prompt: "Use $markdown-cjk-spacing to check and fix Chinese-English mixed Markdown typography."
+  default_prompt: "使用 $markdown-cjk-spacing 检查并修复中英混排 Markdown 的排版。"

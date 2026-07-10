@@ -1,4 +1,4 @@
 interface:
   display_name: "SEU Academic Beamer"
-  short_description: "Create SEU-branded academic Beamer slide decks"
-  default_prompt: "Use $seu-academic-beamer to create a Southeast University academic report slide deck."
+  short_description: "创建东南大学风格的学术 Beamer 幻灯片"
+  default_prompt: "使用 $seu-academic-beamer 创建东南大学学术报告幻灯片。"

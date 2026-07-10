@@ -1,4 +1,4 @@
 interface:
   display_name: "Parse Bilibili"
-  short_description: "Convert Bilibili cache files to media"
-  default_prompt: "Use $parse-bilibili to convert Bilibili cache files into playable video or audio."
+  short_description: "将 Bilibili 缓存文件转换为媒体文件"
+  default_prompt: "使用 $parse-bilibili 将 Bilibili 缓存文件转换为可播放的视频或音频。"

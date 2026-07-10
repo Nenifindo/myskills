@@ -1,4 +1,4 @@
 interface:
   display_name: "SiYuan Note"
-  short_description: "Manage SiYuan notes via CLI or API"
-  default_prompt: "Use $siyuan-note to manage local SiYuan notebooks, documents, and blocks via the preferred CLI or API fallback."
+  short_description: "通过 CLI 或 API 管理思源笔记"
+  default_prompt: "使用 $siyuan-note 通过首选的 CLI 或 API 回退方式管理本地思源笔记、文档和块。"
