@@ -9,8 +9,9 @@ description: |
   Trigger on: beamer, slides, lecture, presentation, seminar talk, conference talk, defense slides,
   tikz, compile latex, proofread slides, slide review, 讨论班, 论文讲解.
   Do NOT trigger on: powerpoint, pptx, PPT, 做PPT — use the powerpoint-slides skill instead.
-argument-hint: "[action] [file] — actions: create, compile, review, audit, pedagogy, tikz, excellence, devils-advocate, visual-check, validate, extract-figures"
 allowed-tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob", "Agent", "AskUserQuestion", "TaskCreate", "TaskUpdate", "TaskList", "TaskGet"]
+metadata:
+  argument-hint: "[action] [file] — actions: create, compile, review, audit, pedagogy, tikz, excellence, devils-advocate, visual-check, validate, extract-figures"
 ---
 
 # Beamer Slide Workflow

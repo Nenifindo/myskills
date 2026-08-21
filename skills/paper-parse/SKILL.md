@@ -37,9 +37,9 @@ description: 对用户提供的任何学术论文（PDF附件或URL）进行双�
 
 创建最终交付文件，文件名格式为 `[论文简称]_研读报告.md`。
 
-**撰写 Part A 前**，先读取模板：`/home/ubuntu/skills/paper-parse/references/part-a-template.md`
+**撰写 Part A 前**，先读取模板：`<skill-dir>/references/part-a-template.md`
 
-**撰写 Part B 前**，先读取模板：`/home/ubuntu/skills/paper-parse/references/part-b-template.md`
+**撰写 Part B 前**，先读取模板：`<skill-dir>/references/part-b-template.md`
 
 ### Step 4: 交付成果
 

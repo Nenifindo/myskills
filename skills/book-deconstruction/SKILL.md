@@ -1,7 +1,8 @@
 ---
 name: book-deconstruction
 description: 对书籍进行章节级要点提炼与深度解读，生成大纲级别结构化笔记和配套思维导图。当用户要求"拆解一本书"、"分析某本书"、"提取书的核心要点"、"生成读书笔记"、"做思维导图"、"拆书"、"book analysis"或类似意图时触发。支持PDF上传、书名搜索、URL链接、电子书文件等多种输入来源。
-agent_created: true
+metadata:
+  agent_created: true
 ---
 
 # 拆书技能 (Book Deconstruction)

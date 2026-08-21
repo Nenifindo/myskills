@@ -1,16 +1,17 @@
 ---
 name: ccf-figure
-version: "2.0"
 description: >
   Generate publication-ready scientific figures for AI/CS research papers.
   Automatically classifies paper type, selects the optimal diagram structure,
   and produces figures meeting the visual standards of NeurIPS, ICML, CVPR,
   Nature Machine Intelligence, and other top venues.
-platforms:
-  - claude
-  - codex
-author: Deepshare / Deepshare
-source: https://mp.weixin.qq.com/s/qPqfvBILEu5ascyZe6guAw
+metadata:
+  version: "2.0"
+  platforms:
+    - claude
+    - codex
+  author: Deepshare / Deepshare
+  source: https://mp.weixin.qq.com/s/qPqfvBILEu5ascyZe6guAw
 ---
 
 # Scientific Figure Generator — Skill Instructions

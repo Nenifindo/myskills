@@ -1,8 +1,9 @@
 ---
 name: ai4scholar
 description: "全面的学术文献检索、管理、分析技能。覆盖 Semantic Scholar（2 亿+ 论文）、PubMed（生物医学）、Google Scholar、arXiv、bioRxiv、medRxiv 六大平台。支持论文搜索、引文追踪、作者画像、PDF 下载与全文阅读、DOI 解析、自动引用标注（auto-cite）、科研绘图（sci-draw）。适合做文献综述、查引文、找方法、读全文、写引用。当用户提出学术搜索、论文查找、文献调研、引文分析、科研绘图、DOI 下载、自动引用等需求时，必须使用此技能，即使只是问'帮我搜一些关于 XX 的论文'。"
-version: "1.0"
-tags: [academic, literature, search, paper, citation, research, scholar, pubmed, arxiv, biorxiv, medrxiv, DOI, sci-draw]
+metadata:
+  version: "1.0"
+  tags: [academic, literature, search, paper, citation, research, scholar, pubmed, arxiv, biorxiv, medrxiv, DOI, sci-draw]
 ---
 
 # AI4Scholar 综合学术文献技能
