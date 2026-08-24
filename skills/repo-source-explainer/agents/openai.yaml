@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repo Source Explainer"
+  short_description: "Create source-grounded architecture guides and code books"
+  default_prompt: "Use $repo-source-explainer to analyze this repository and produce a source-grounded architecture guide."
