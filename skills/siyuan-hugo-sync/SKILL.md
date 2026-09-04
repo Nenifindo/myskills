@@ -9,9 +9,9 @@ Use this skill to move content between SiYuan Note and Hugo Markdown without los
 
 ## Dependencies
 
-- Use the `siyuan-note` skill for all SiYuan API access. Open its `SKILL.md` when you need connection details, CLI usage, or API examples.
-- Prefer reading from SiYuan with `tools/read.py <doc_id>` or `SiYuanClient.export_md_content(doc_id)`.
-- Prefer writing to SiYuan with the `siyuan-note` update/create APIs after converting Hugo Markdown back to SiYuan-compatible Markdown.
+- Use the `siyuan-note` skill for all SiYuan access and follow its platform routing: prefer the `siyuan` CLI on native Windows, and the bundled Python HTTP API client on Linux and WSL. An explicit user choice overrides the platform default.
+- On native Windows, use the appropriate `siyuan` CLI export, document, or block commands for reading and writing.
+- On Linux and WSL, prefer `tools/read.py <doc_id>` or `SiYuanClient.export_md_content(doc_id)` for reading, and the bundled update/create API tools for writing after conversion.
 
 ## Workflow
 

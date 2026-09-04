@@ -1,24 +1,28 @@
 ---
 name: siyuan-note
-description: Access and manage local SiYuan Note (思源笔记) workspaces with the built-in siyuan CLI as the preferred path, while preserving the local HTTP API and Python client fallback. Use for notebooks, documents, blocks, search, SQL, import/export, assets, databases, daily notes, templates, history, repo snapshots, and scripted/batch note management.
+description: "Access and manage local SiYuan Note (思源笔记) workspaces with platform-specific routing: prefer the built-in siyuan CLI on native Windows, and the bundled Python HTTP API client on Linux and WSL. Use for notebooks, documents, blocks, search, SQL, import/export, assets, databases, daily notes, templates, history, repo snapshots, and scripted/batch note management."
 ---
 
 # SiYuan Note (思源笔记)
 
-Prefer the built-in `siyuan` CLI for direct local workspace access. It can read and write workspace data without starting the SiYuan kernel service, which makes it the default choice for scripting, batch operations, and agent workflows. Keep using the bundled HTTP API client when the CLI is unavailable, the user explicitly asks for API access, or an existing Python helper is the best fit.
+Choose the access method from the runtime environment:
+
+- On native Windows, prefer the built-in `siyuan` CLI. It can access workspace data directly without starting the SiYuan HTTP service.
+- On Linux and WSL, prefer the bundled Python client and HTTP API tools. Treat WSL as Linux/WSL even when SiYuan itself is running on the Windows host.
+- An explicit user request for CLI or API overrides these defaults. If the preferred path is unavailable or does not support the operation, use the other path and explain the switch.
 
 ## Access Strategy
 
-1. Probe the CLI first: `Get-Command siyuan`, `siyuan --help`, then `siyuan --format json workspace info`.
-2. Use `--format json` for parseable output whenever the command supports it.
-3. Pass `--workspace <path>` when the user gives a workspace, when multiple workspaces are registered, or when `SIYUAN_WORKSPACE_PATH` is unset/ambiguous.
-4. Use `--dry-run` before destructive or bulk write operations, then rerun without it only after the target and parameters are confirmed.
-5. Use temporary files plus `--file` for long Markdown or structured content instead of stuffing large payloads into shell arguments.
-6. Fall back to the API/Python client section when `siyuan` is missing from `PATH`, CLI output is insufficient, or the operation is already implemented by the bundled tools.
+1. Identify the runtime platform before selecting an access method. Do not classify WSL as native Windows.
+2. Honor an access method explicitly requested by the user.
+3. On native Windows, read `CLI.md`, then probe `Get-Command siyuan`, `siyuan --help`, and `siyuan --format json workspace info`.
+4. On Linux and WSL, start with the API/Python section below. Confirm Python 3 is available, SiYuan is running with API access enabled, and `config.yaml` points to the reachable service address.
+5. Before destructive or bulk writes, identify the exact workspace, notebook, document, or block and create a suitable backup or repository snapshot. When using the CLI, also run `--dry-run` before applying the change.
+6. Switch to the non-default path only when the preferred path is unavailable, insufficient for the operation, or superseded by the user's request.
 
-## CLI Access (Preferred)
+## CLI Access (Preferred on Native Windows)
 
-For any CLI-based note access or management task, read `CLI.md` in this skill directory before running `siyuan` commands. It contains installation notes, global flags, safety rules, command references, and examples for notebooks, documents, blocks, search, SQL, import/export, history, repo snapshots, metadata, assets, databases, daily notes, templates, and workspace files.
+Use this as the default path on native Windows. For any CLI-based note access or management task, read `CLI.md` in this skill directory before running `siyuan` commands. It contains installation notes, global flags, safety rules, command references, and examples for notebooks, documents, blocks, search, SQL, import/export, history, repo snapshots, metadata, assets, databases, daily notes, templates, and workspace files.
 
 Minimal probe:
 
@@ -36,9 +40,11 @@ siyuan [--workspace /path/to/workspace] [--format json] [--dry-run] <command> [a
 
 Before destructive or bulk writes, use `--dry-run` and consider `siyuan repo create --memo "before batch edit"` or `siyuan export data --output ./full-backup.zip`.
 
-## API/Python Fallback
+## API/Python Access (Preferred on Linux and WSL)
 
-Use this path when the CLI cannot be used, when the user explicitly asks for HTTP API access, or when a local Python helper already covers the requested task. The API path requires SiYuan running with API enabled and a token from **Settings -> About -> API**.
+Use this as the default path on Linux and WSL. Also use it on another platform when the user explicitly requests HTTP API access or a bundled Python helper is the better fit. The API path requires SiYuan running with API access enabled and a token from **Settings -> About -> API**.
+
+On WSL, verify that `base_url` is reachable from the WSL environment. Use `127.0.0.1` only when the Windows-hosted SiYuan service is exposed there; otherwise configure the reachable Windows host address and the current SiYuan API port.
 
 ### Configuration
 
@@ -48,8 +54,6 @@ Create or edit `config.yaml`:
 siyuan:
   base_url: "http://127.0.0.1:6806"  # Check SiYuan settings for actual port
   token: "your-api-token-here"       # Paste your token here
-  timeout: 30
-  retry: 3
 ```
 
 SiYuan may use different ports on restart, commonly `6806` but sometimes another port. Check the current port in SiYuan settings.
@@ -350,7 +354,7 @@ print(response["body"])
 print(response["status"])
 ```
 
-### Bundled API Tools
+### Bundled Python API Tools
 
 All tools are located in `tools/` and depend on `siyuan_client.py`.
 
@@ -406,9 +410,9 @@ python3 tools/update.py --insert "New paragraph" --parent doc-id
 
 ## Troubleshooting
 
-- CLI missing: locate `<SiYuan install>/resources/kernel/SiYuan-Kernel` or the platform-specific `siyuan` executable, add it to `PATH`, or invoke the full path.
+- Native Windows CLI missing: locate `<SiYuan install>/resources/kernel/SiYuan-Kernel` or the platform-specific `siyuan` executable, add it to `PATH`, or invoke the full path. If it remains unavailable, use the Python API path.
 - Wrong workspace: set `SIYUAN_WORKSPACE_PATH` or pass `--workspace`.
 - CLI output hard to parse: add `--format json`.
-- API connection refused: start SiYuan, enable API, and verify the port in `config.yaml`.
+- Linux/WSL API connection refused: start SiYuan, enable API access, and verify that the host and port in `config.yaml` are reachable from the current environment.
 - API authentication failed: copy a fresh token from SiYuan settings.
 - API port changed: check the current SiYuan API port and update `config.yaml`.
