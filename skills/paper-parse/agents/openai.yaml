@@ -1,4 +1,0 @@
-interface:
-  display_name: "Paper Parse"
-  short_description: "深度阅读学术论文并生成报告"
-  default_prompt: "使用 $paper-parse 深度分析一篇学术论文，并生成两份阅读报告。"
