@@ -1,5 +1,5 @@
 ---
-name: siyuan-hugo-sync
+name: sync-siyuan-hugo
 description: Convert and synchronize SiYuan Note documents and Hugo Markdown content. Use when Codex needs to export a SiYuan note through the siyuan-note skill, update or create a Hugo post from it, import Hugo Markdown back into SiYuan, preserve or edit Hugo front matter fields such as title/date/lastmod/tags/draft, or translate callout/admonition blocks between SiYuan GitHub-alert style and Hugo shortcode style.
 ---
 
@@ -46,7 +46,7 @@ When updating an existing Hugo document:
 Example:
 
 ```bash
-python3 .agents/skills/siyuan-hugo-sync/scripts/convert_markdown.py \
+python3 .agents/skills/sync-siyuan-hugo/scripts/convert_markdown.py \
   siyuan-to-hugo /tmp/siyuan.md content/blog/2025/post/index.md \
   --existing content/blog/2025/post/index.md \
   --lastmod now
@@ -66,7 +66,7 @@ When updating SiYuan from Hugo:
 Example:
 
 ```bash
-python3 .agents/skills/siyuan-hugo-sync/scripts/convert_markdown.py \
+python3 .agents/skills/sync-siyuan-hugo/scripts/convert_markdown.py \
   hugo-to-siyuan content/blog/2025/post/index.md /tmp/siyuan-import.md \
   --strip-frontmatter
 ```

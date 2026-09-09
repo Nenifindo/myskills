@@ -1,8 +1,8 @@
 # 自用 Skills 仓库
 
-该仓库包含了我个人使用的一组 Codex / Claude Code 技能，覆盖学术检索与论文速读、科研配图、每日 AI 资讯、读书拆解、代码库入门与源码讲解、技能发现与安装、Markdown 中英混排校对、Beamer / Slidev 演示文稿、东南大学学术汇报、思源笔记与 Hugo 内容同步、技术栈入门与系统教程，以及 B 站缓存转换等场景。
+该仓库包含了我个人使用的一组 Codex / Claude Code 技能，覆盖学术检索与论文速读、科研配图、每日 AI 资讯、读书拆解、代码库入门与源码讲解、技能发现与安装、Markdown 中英混排校对、Beamer / Slidev 演示文稿、东南大学学术汇报、思源笔记与 Hugo 内容同步、思源笔记与 VitePress 内容同步、技术栈入门与系统教程，以及 B 站缓存转换等场景。
 
-当前共包含 18 个技能，统一放在 `skills/` 目录下。每个技能都是一个独立目录，包含必需的 `SKILL.md`，以及可选的 `agents/openai.yaml`、参考资料、脚本或素材。该布局符合 Agent Skills 规范，可直接通过 `npx skills add` 安装。
+当前共包含 19 个技能，统一放在 `skills/` 目录下。每个技能都是一个独立目录，包含必需的 `SKILL.md`，以及可选的 `agents/openai.yaml`、参考资料、脚本或素材。该布局符合 Agent Skills 规范，可直接通过 `npx skills add` 安装。
 
 ## 技能列表
 
@@ -21,7 +21,8 @@
 | [parse-bilibili](./skills/parse-bilibili/) | 解析 B 站 Android/PC 客户端缓存的 `.m4s` 文件，导出 MP4 视频或纯音频 | 否 |
 | [repo-source-explainer](./skills/repo-source-explainer/) | 基于源码证据生成架构导览、模块深度讲解、代码阅读指南或书籍式文档 | 否 |
 | [seu-academic-beamer](./skills/seu-academic-beamer/) | 使用内置 SimplePlus Beamer 主题和东南大学 Logo 创建、编译、审阅和润色东南大学学术汇报幻灯片 | 否 |
-| [siyuan-hugo-sync](./skills/siyuan-hugo-sync/) | 在思源笔记与 Hugo Markdown 之间双向转换和同步，保留 front matter、提示块和行内数学公式 | 取决于思源笔记接入方式 |
+| [sync-siyuan-hugo](./skills/sync-siyuan-hugo/) | 在思源笔记与 Hugo Markdown 之间双向转换和同步，保留 front matter、提示块和行内数学公式 | 取决于思源笔记接入方式 |
+| [sync-siyuan-vitepress](./skills/sync-siyuan-vitepress/) | 在思源笔记与 VitePress 文档之间双向同步，支持路径映射、冲突检测、本地资源复制、自动生成侧边栏和增量状态保存 | 取决于思源笔记接入方式 |
 | [siyuan-note](./skills/siyuan-note/) | 按运行平台管理思源笔记：原生 Windows 优先使用内置 `siyuan` CLI，Linux 和 WSL 优先使用 Python HTTP API | Linux/WSL 默认需要 API 配置 |
 | [slidev](./skills/slidev/) | 创建和维护面向开发者的 Slidev 网页演示文稿，支持 Markdown、Vue 组件、代码高亮、动画、交互演示和导出 | 否 |
 | [tech-stack-quickstart](./skills/tech-stack-quickstart/) | 为指定技术栈生成新手友好的快速入门和用法参考文档 | 否 |
@@ -79,7 +80,8 @@ cp -R skills/ai4scholar ~/.claude/skills/
 
 - `ai4scholar`：如需使用受限接口或更稳定的检索能力，请参考 [ai4scholar/config.example.yaml](./skills/ai4scholar/config.example.yaml) 创建本地 `config.yaml` 并配置 API Key。
 - `siyuan-note`：原生 Windows 优先使用内置 `siyuan` CLI，通常无需 API 配置；Linux 和 WSL 优先使用 Python HTTP API，需要参考 [siyuan-note/config.example.yaml](./skills/siyuan-note/config.example.yaml) 创建本地 `config.yaml`，并配置思源笔记 API Token 和当前环境可访问的服务地址。
-- `siyuan-hugo-sync`：通过 `siyuan-note` 访问思源笔记，并遵循相同的平台选择规则；如需验证 Hugo 输出，还应准备可用的 Hugo 项目环境。
+- `sync-siyuan-hugo`：通过 `siyuan-note` 访问思源笔记，并遵循相同的平台选择规则；如需验证 Hugo 输出，还应准备可用的 Hugo 项目环境。
+- `sync-siyuan-vitepress`：通过 `siyuan-note` 访问思源笔记，并遵循相同的平台选择规则；支持 VitePress 和 Teek 主题，如需验证输出，还应准备可用的 VitePress 项目环境。
 
 真实的 `config.yaml` 会被 `.gitignore` 忽略。请不要把 Token、Key 或本地私有服务地址提交到公开仓库。
 
